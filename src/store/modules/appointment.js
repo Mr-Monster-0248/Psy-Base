@@ -14,6 +14,7 @@ const getters = {
   isRecorded: (state) => state.status === 'recorded',
   isReceived: (state) => state.status === 'received',
   isUpdated: (state) => state.status === 'updated',
+  getStatus: (state) => state.status,
   getAppointments: (state) => state.appointments,
 };
 

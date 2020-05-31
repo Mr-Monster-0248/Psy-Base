@@ -7,6 +7,7 @@
 
 <script>
 import SessionForm from '@/components/forms/SessionForm.vue';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'AddAppointment',
@@ -14,15 +15,37 @@ export default {
     SessionForm,
   },
 
+  computed: {
+    ...mapGetters({
+      sendStatus: 'appointment/getStatus',
+    }),
+  },
+
+  watch: {
+    sendStatus(newState) {
+      if (newState === 'recorded') {
+        this.$swal({
+          title: 'Séance bien enregistrée',
+          icon: 'success',
+        });
+      } else {
+        this.$swal({
+          title: 'Une erreur est survenue pendant l\'envoie',
+          text: 'Réessayer plus tard',
+          icon: 'success',
+        });
+      }
+    },
+  },
+
   methods: {
     addSession(formData) {
-      console.log(formData);
+      this.$store.dispatch('appointment/sendNewSessionToDatabase', formData);
     },
   },
 
   mounted() {
     this.$store.dispatch('patient/getAllPatientsFromDB');
-    // this.$store.dispatch('appointment/getAllSessionFromDB');
   },
 };
 </script>
