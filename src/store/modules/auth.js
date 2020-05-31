@@ -18,17 +18,26 @@ const mutations = {
     state.status = 'pending';
   },
 
-  errorConnectingDatabase: (state) => {
-    state.status = 'DB error';
-  },
-
   connectionSuccess: (state, token) => {
     state.auth_token = token;
     state.loggedIn = true;
   },
+
+  connectionFaild: (state) => {
+    state.status = 'error';
+  },
+
+  loggedOut: (state) => {
+    state.auth_token = null;
+    state.isLoggedIn = false;
+  },
 };
 
 const actions = {
+
+  logout: async ({ commit }) => {
+    commit('loggedOut');
+  },
 
   loginAdmin: async ({ commit }, { email, password }) => {
     commit('pending');
