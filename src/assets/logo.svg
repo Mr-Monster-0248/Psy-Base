@@ -1,1 +1,14 @@
-<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 87.5 100"><defs><style>.cls-1{fill:#1697f6;}.cls-2{fill:#7bc6ff;}.cls-3{fill:#1867c0;}.cls-4{fill:#aeddff;}</style></defs><title>Artboard 46</title><polyline class="cls-1" points="43.75 0 23.31 0 43.75 48.32"/><polygon class="cls-2" points="43.75 62.5 43.75 100 0 14.58 22.92 14.58 43.75 62.5"/><polyline class="cls-3" points="43.75 0 64.19 0 43.75 48.32"/><polygon class="cls-4" points="64.58 14.58 87.5 14.58 43.75 100 43.75 62.5 64.58 14.58"/></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 340 472" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
+    <g transform="matrix(1,0,0,1,-98,-20)">
+        <g>
+            <g transform="matrix(0.871604,-0.49021,0.49021,0.871604,-116.785,183.596)">
+                <path d="M172.838,183.382C172.838,183.382 328.826,82.875 377.733,153.359C426.64,223.842 376.75,294.714 325.741,293.994C413.519,319.641 408.164,368.536 401.422,393.106C388.12,441.591 317.279,472.647 181.623,443.282L172.838,183.382Z" style="fill:none;stroke:white;stroke-width:20.59px;"/>
+            </g>
+            <g transform="matrix(0.989414,0.145121,-0.145121,0.989414,-30.8874,15.2657)">
+                <path d="M146.551,73.185L370.541,346.951C370.541,346.951 412.831,305.663 379.825,272.657L296.513,187.804C296.513,187.804 402.751,60.997 330.049,-11.705C257.347,-84.407 146.551,73.185 146.551,73.185Z" style="fill:white;stroke:white;stroke-width:9.69px;"/>
+            </g>
+        </g>
+    </g>
+</svg>
