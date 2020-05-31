@@ -49,7 +49,7 @@
           <v-calendar
             ref="calendar"
             v-model="focus"
-            color="green"
+            color="primary"
             :events="sessionsList"
             :event-color="selectedEvent.color"
             :now="today"
@@ -64,7 +64,6 @@
             @click:event="showEvent"
             @click:more="viewDay"
             @click:date="viewDay"
-            @change="updateRange"
           ></v-calendar>
 
           <v-menu
@@ -87,10 +86,10 @@
                 <v-spacer></v-spacer>
 
                 <v-btn icon :to="`/change-appointment/${this.selectedEvent.id}`">
-                  <v-icon>mdi-pencil</v-icon>
+                  <i class="gg-pen"></i>
                 </v-btn>
                 <v-btn icon>
-                  <v-icon>fas fa-trash-alt</v-icon>
+                  <i class="gg-trash-empty"></i>
                 </v-btn>
               </v-toolbar>
 
@@ -134,18 +133,6 @@ export default {
     selectedEvent: {},
     selectedElement: null,
     selectedOpen: false,
-    testEvents: [
-      {
-        id: 1,
-        name: 'J. Doe',
-        start: '2020-05-30 12:00',
-        end: '2020-05-30 12:30',
-        details: 'John Doe - 12:00 to 12:30',
-        color: 'primary',
-      },
-    ],
-    colors: ['primary'],
-    names: ['Session'],
   }),
 
   computed: {
@@ -277,45 +264,10 @@ export default {
 
       nativeEvent.stopPropagation();
     },
-    updateRange({ start, end }) {
-      const events = [];
-
-      const min = new Date(`${start.date}T00:00:00`);
-      const max = new Date(`${end.date}T23:59:59`);
-      const days = (max.getTime() - min.getTime()) / 86400000;
-      const eventCount = this.rnd(days, days + 20);
-
-      for (let i = 0; i < eventCount; i += 1) {
-        const allDay = this.rnd(0, 3) === 0;
-        const firstTimestamp = this.rnd(min.getTime(), max.getTime());
-        const first = new Date(firstTimestamp - (firstTimestamp % 900000));
-        const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000;
-        const second = new Date(first.getTime() + secondTimestamp);
-
-        events.push({
-          name: this.names[this.rnd(0, this.names.length - 1)],
-          start: this.formatDate(first, !allDay),
-          end: this.formatDate(second, !allDay),
-          color: this.colors[this.rnd(0, this.colors.length - 1)],
-        });
-      }
-
-      this.start = start;
-      this.end = end;
-      this.events = events;
-    },
     nth(d) {
       return d > 3 && d < 21
         ? 'th'
         : ['th', 'st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th'][d % 10];
-    },
-    rnd(a, b) {
-      return Math.floor((b - a + 1) * Math.random()) + a;
-    },
-    formatDate(a, withTime) {
-      return withTime
-        ? `${a.getFullYear()}-${a.getMonth() + 1}-${a.getDate()} ${a.getHours()}:${a.getMinutes()}`
-        : `${a.getFullYear()}-${a.getMonth() + 1}-${a.getDate()}`;
     },
   },
 
