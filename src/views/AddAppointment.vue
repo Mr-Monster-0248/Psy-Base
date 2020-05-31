@@ -32,7 +32,7 @@ export default {
         this.$swal({
           title: 'Une erreur est survenue pendant l\'envoie',
           text: 'Réessayer plus tard',
-          icon: 'success',
+          icon: 'error',
         });
       }
     },

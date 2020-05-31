@@ -32,13 +32,13 @@
 
               <v-list>
                 <v-list-item @click="type = 'day'">
-                  <v-list-item-title>Day</v-list-item-title>
+                  <v-list-item-title>Jour</v-list-item-title>
                 </v-list-item>
                 <v-list-item @click="type = 'week'">
-                  <v-list-item-title>Week</v-list-item-title>
+                  <v-list-item-title>Semaine</v-list-item-title>
                 </v-list-item>
                 <v-list-item @click="type = 'month'">
-                  <v-list-item-title>Month</v-list-item-title>
+                  <v-list-item-title>Mois</v-list-item-title>
                 </v-list-item>
               </v-list>
             </v-menu>
@@ -123,9 +123,9 @@ export default {
     focus: '',
     type: 'month',
     typeToLabel: {
-      month: 'Month',
-      week: 'Week',
-      day: 'Day',
+      month: 'Mois',
+      week: 'Semaine',
+      day: 'Jour',
     },
     today: new Date().toISOString().substring(0, 10),
     start: null,
