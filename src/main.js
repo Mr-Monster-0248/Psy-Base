@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import VueSwal from 'vue-swal';
 import App from './App.vue';
 import router from './router';
 import store from './store';
@@ -7,6 +8,21 @@ import 'roboto-fontface/css/roboto/roboto-fontface.css';
 import '@mdi/font/css/materialdesignicons.css';
 
 Vue.config.productionTip = false;
+Vue.use(VueSwal);
+
+const ignoreWarnMessage = 'The .native modifier for v-on is only valid on components but it was used on <div>.';
+// eslint-disable-next-line no-unused-vars
+Vue.config.warnHandler = (msg, vm, trace) => {
+  // `trace` is the component hierarchy trace
+  if (msg === ignoreWarnMessage) {
+    // eslint-disable-next-line no-param-reassign
+    msg = null;
+    // eslint-disable-next-line no-param-reassign
+    vm = null;
+    // eslint-disable-next-line no-param-reassign
+    trace = null;
+  }
+};
 
 new Vue({
   router,
