@@ -48,6 +48,7 @@ const actions = {
       session.defaults.headers.common['auth-token'] = rep.data;
       commit('connectionSuccess', rep.data);
     } catch (e) {
+      commit('connectionFaild');
       console.error(e.stack);
     }
   },

@@ -9,11 +9,7 @@ const state = {
 };
 
 const getters = {
-  isPending: (state) => state.status === 'pending',
-  isRecieved: (state) => state.status === 'recieved',
-  isAdded: (state) => state.status === 'added',
-  isUpdated: (state) => state.status === 'updated',
-  isRemoved: (state) => state.status === 'removed',
+  getStatus: (state) => state.status,
   getPatients: (state) => state.patients,
   getSinglePatient(id, state) { return state.patients.find((p) => p.patient_id === id); },
 };
@@ -111,8 +107,8 @@ const actions = {
     commit('pending');
     try {
       session.default.headers.common['auth-token'] = rootGetters['auth/getToken'];
-      const rep = await session.delete(`/patient/${patientId}`);
-      commit('patientRemovalSuccess', rep.data);
+      await session.delete(`/patient/${patientId}`);
+      commit('patientRemovalSuccess');
     } catch (e) {
       console.log(e.response.data);
       commit('errorCoonectingDatabase');
