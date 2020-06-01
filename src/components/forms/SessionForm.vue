@@ -78,6 +78,9 @@
         </v-menu>
       </v-col>
     </v-row>
+    <v-row v-if="modify">
+
+    </v-row>
     <v-row justify='center'>
       <v-col cols='5'>
         <v-btn
@@ -120,6 +123,20 @@ export default {
       (s) => s !== '' || 'Ce champs doit être rempli',
     ],
   }),
+
+  mounted() {
+    if (this.modify) {
+      const session = this.$store.getters['appointment/getAppointments']
+        .filter((s) => s.session_id === Number(this.$route.params.id))[0];
+      console.log(session);
+
+      this.selectedPatient = session.patients.map((p) => (p != null ? p.patient_id : null));
+      this.date = session.date_and_time.split('_')[0]
+        .split('-').reverse().join('-');
+      // eslint-disable-next-line prefer-destructuring
+      this.time = session.date_and_time.split('_')[1];
+    }
+  },
 
   computed: {
     dateWellForm() {

@@ -85,7 +85,7 @@
 
                 <v-spacer></v-spacer>
 
-                <v-btn icon :to="`/change-appointment/${this.selectedEvent.id}`">
+                <v-btn icon :to="`/alter-session/${this.selectedEvent.id}`">
                   <i class="gg-pen"></i>
                 </v-btn>
                 <v-btn icon>
