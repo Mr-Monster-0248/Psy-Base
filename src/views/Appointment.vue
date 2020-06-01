@@ -269,8 +269,12 @@ export default {
   },
 
   mounted() {
+    if (this.$store.getters['auth/isAdmin']) {
+      this.$store.dispatch('appointment/getAllSessionFromDB');
+    } else {
+      this.$store.dispatch('appointment/getPersonnalSessionForUser');
+    }
     this.$store.dispatch('patient/getAllPatientsFromDB');
-    this.$store.dispatch('appointment/getAllSessionFromDB');
     this.$refs.calendar.checkChange();
   },
 };
