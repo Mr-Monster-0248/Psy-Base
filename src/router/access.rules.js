@@ -1,4 +1,5 @@
-import store from '@/store';
+// eslint-disable-next-line import/no-cycle
+import store from '../store';
 
 function requiresAdmin(to, from, next) {
   if (store.getters['auth/isAdmin']) next();

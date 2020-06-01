@@ -1,5 +1,5 @@
 /* eslint-disable no-shadow */
-import cookie from 'vue-cookie';
+import Vue from 'vue';
 import { session } from '../session';
 
 
@@ -51,7 +51,7 @@ const actions = {
   sendNewSessionToDatabase: async ({ commit }, sessionData) => {
     commit('pending');
     try {
-      session.defaults.headers.common['auth-token'] = cookie.get('token');
+      session.defaults.headers.common['auth-token'] = Vue.cookie.get('token');
       console.log(sessionData);
       const rep = await session.post('/session/add', sessionData);
       commit('sessionAdditionSuccess', rep.data);
@@ -66,7 +66,7 @@ const actions = {
   getAllSessionFromDB: async ({ commit }) => {
     commit('pending');
     try {
-      session.defaults.headers.common['auth-token'] = cookie.get('token');
+      session.defaults.headers.common['auth-token'] = Vue.cookie.get('token');
       const rep = await session.get('/session');
       commit('sessionRetrievalSuccess', rep.data);
     } catch (e) {
@@ -80,7 +80,7 @@ const actions = {
   getSingleSessionFromDB: async ({ commit }, sessionId) => {
     commit('pending');
     try {
-      session.defaults.headers.common['auth-token'] = cookie.get('token');
+      session.defaults.headers.common['auth-token'] = Vue.cookie.get('token');
       const rep = await session.get(`/session/${sessionId}`);
       commit('sessionRetrievalSuccess', rep.data);
     } catch (e) {
@@ -94,7 +94,7 @@ const actions = {
   updateSessionInDB: async ({ commit }, { id, sessionData }) => {
     commit('pending');
     try {
-      session.defaults.headers.common['auth-token'] = cookie.get('token');
+      session.defaults.headers.common['auth-token'] = Vue.cookie.get('token');
       const rep = await session.patch(`/session/${id}`, sessionData);
       commit('sessionUpdateSuccess', rep.data);
     } catch (e) {
@@ -107,7 +107,7 @@ const actions = {
   deleteSessionInDB: async ({ commit }, id) => {
     commit('pending');
     try {
-      session.defaults.headers.common['auth-token'] = cookie.get('token');
+      session.defaults.headers.common['auth-token'] = Vue.cookie.get('token');
       await session.delete(`/session/${id}`);
       commit('sessionDeleteSuccess');
     } catch (e) {

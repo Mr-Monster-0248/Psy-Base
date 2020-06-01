@@ -1,7 +1,8 @@
 /* eslint-disable no-shadow */
-import cookie from 'vue-cookie';
+import Vue from 'vue';
 import jwt from 'jsonwebtoken';
-import router from 'vue-router';
+// eslint-disable-next-line import/no-cycle
+import router from '@/router';
 
 const { session } = require('../session');
 
@@ -36,7 +37,7 @@ const mutations = {
   },
 
   loggedOut: (state) => {
-    state.isLoggedIn = false;
+    state.loggedIn = false;
     state.admin = false;
     state.status = null;
   },
@@ -45,9 +46,8 @@ const mutations = {
 const actions = {
 
   logout: async ({ commit }) => {
-    cookie.delete('token');
+    Vue.cookie.delete('token');
     commit('loggedOut');
-    router.push('/login');
   },
 
   loginAdmin: async ({ commit }, { email, password }) => {
@@ -56,7 +56,7 @@ const actions = {
       const rep = await session.post('/auth/login-admin', { email, password });
 
       // Adding token to header of the request
-      cookie.set('token', rep.data);
+      Vue.cookie.set('token', rep.data);
       commit('connectionAdminSuccess');
     } catch (e) {
       commit('connectionFaild');
@@ -68,7 +68,7 @@ const actions = {
     commit('pending');
     try {
       const rep = await session.post('/auth/login', { email, password });
-      this.$cookie.set('token', rep.data);
+      Vue.cookie.set('token', rep.data);
       commit('connectionSuccess');
     } catch (e) {
       console.error(e.stack);
@@ -76,10 +76,11 @@ const actions = {
   },
 
   reconnect: async ({ commit }) => {
-    if (cookie.get('token') != null) {
-      if (jwt.decode(cookie.get('token')).admin) {
+    if (Vue.cookie.get('token') != null) {
+      if (jwt.decode(Vue.cookie.get('token')).admin) {
         commit('connectionAdminSuccess');
       } else commit('connectionSuccess');
+      await router.push({ path: '/' });
     }
   },
 };
