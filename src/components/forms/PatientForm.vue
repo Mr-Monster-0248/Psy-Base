@@ -99,7 +99,7 @@
           :disabled="!formValid"
           block color="green"
           class="white--text">
-          Add patient
+          {{ this.modify ? 'Modifer vos information' : 'Ajouter un patient' }}
         </v-btn>
       </v-col>
     </v-row>
@@ -109,6 +109,16 @@
 <script>
 export default {
   name: 'PatientForm',
+
+  props: {
+    modify: {
+      type: Boolean,
+      default: false,
+    },
+    patient: {
+      type: Object,
+    },
+  },
 
   data: () => ({
     formValid: false,

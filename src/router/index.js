@@ -1,8 +1,10 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import PatientList from '@/views/PatientList.vue';
+// eslint-disable-next-line import/no-cycle
 import access from '@/router/access.rules';
 import ChangeAppointment from '@/views/ChangeAppointment.vue';
+import Info from '../views/Info.vue';
 import Login from '../views/Login.vue';
 import Appointment from '../views/Appointment.vue';
 import AddPatient from '../views/AddPatient.vue';
@@ -40,6 +42,11 @@ const routes = [
     path: '/patients',
     name: 'Liste de  patient',
     component: PatientList,
+  },
+  {
+    path: '/info',
+    name: 'Information patient',
+    component: Info,
   },
 ];
 
