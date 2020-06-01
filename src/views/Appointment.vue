@@ -142,20 +142,17 @@ export default {
 
     sessionsList() {
       if (this.$store.getters['appointment/isReceived']) {
-        const list = this.$store.getters['appointment/getAppointments'].map((a) => ({
-          id: a.session_id,
-          name: this.sessName(a.patients),
-          start: `${this.normalizeDate(a.date_and_time.split('_')[0], '-')} ${a.date_and_time.split('_')[1]}`,
-          end: `${this.normalizeDate(a.date_and_time.split('_')[0], '-')} ${this.endTime(a.date_and_time.split('_')[1])}`,
-          details: '',
-          color: 'primary',
-        }));
-
-        for (let i = 0; i < list.length; i += 1) {
-          list[i].details = `${list[i].name} - ${list[i].start.split(' ')[1]} to ${list[i].end.split(' ')[1]}`;
-        }
-
-        return list;
+        return this.$store.getters['appointment/getAppointments'].map((a) => {
+          const detail = a.patients.map((pat) => (pat != null ? this.patName(pat) : '')).join('<br>');
+          return {
+            id: a.session_id,
+            name: `Séance n°${a.session_id}`,
+            start: `${this.normalizeDate(a.date_and_time.split('_')[0], '-')} ${a.date_and_time.split('_')[1]}`,
+            end: `${this.normalizeDate(a.date_and_time.split('_')[0], '-')} ${this.endTime(a.date_and_time.split('_')[1])}`,
+            details: detail,
+            color: 'primary',
+          };
+        });
       }
       return [];
     },
@@ -223,7 +220,7 @@ export default {
 
       for (let i = 0; i < p.length; i += 1) {
         if (p[i] !== null) {
-          name += this.patName(p[i]);
+          name += `${this.patName(p[i])} `;
         }
       }
 
