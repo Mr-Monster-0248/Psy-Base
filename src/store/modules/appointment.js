@@ -1,5 +1,5 @@
 /* eslint-disable no-shadow */
-
+import cookie from 'vue-cookie';
 import { session } from '../session';
 
 
@@ -48,10 +48,10 @@ const mutations = {
 const actions = {
 
   // ADD NEW SESSION TO DATABASE
-  sendNewSessionToDatabase: async ({ commit, rootGetters }, sessionData) => {
+  sendNewSessionToDatabase: async ({ commit }, sessionData) => {
     commit('pending');
     try {
-      session.defaults.headers.common['auth-token'] = rootGetters['auth/getToken'];
+      session.defaults.headers.common['auth-token'] = cookie.get('token');
       console.log(sessionData);
       const rep = await session.post('/session/add', sessionData);
       commit('sessionAdditionSuccess', rep.data);
@@ -63,10 +63,10 @@ const actions = {
   },
 
   // GET ALL SESSIONS FROM DATABASE
-  getAllSessionFromDB: async ({ commit, rootGetters }) => {
+  getAllSessionFromDB: async ({ commit }) => {
     commit('pending');
     try {
-      session.defaults.headers.common['auth-token'] = rootGetters['auth/getToken'];
+      session.defaults.headers.common['auth-token'] = cookie.get('token');
       const rep = await session.get('/session');
       commit('sessionRetrievalSuccess', rep.data);
     } catch (e) {
@@ -77,10 +77,10 @@ const actions = {
   },
 
   // GET SINGLE SESSIONS FROM DATABASE
-  getSingleSessionFromDB: async ({ commit, rootGetters }, sessionId) => {
+  getSingleSessionFromDB: async ({ commit }, sessionId) => {
     commit('pending');
     try {
-      session.defaults.headers.common['auth-token'] = rootGetters['auth/getToken'];
+      session.defaults.headers.common['auth-token'] = cookie.get('token');
       const rep = await session.get(`/session/${sessionId}`);
       commit('sessionRetrievalSuccess', rep.data);
     } catch (e) {
@@ -91,10 +91,10 @@ const actions = {
   },
 
   // UPDATE A SESSION IN DB
-  updateSessionInDB: async ({ commit, rootGetters }, { id, sessionData }) => {
+  updateSessionInDB: async ({ commit }, { id, sessionData }) => {
     commit('pending');
     try {
-      session.defaults.headers.common['auth-token'] = rootGetters['auth/getToken'];
+      session.defaults.headers.common['auth-token'] = cookie.get('token');
       const rep = await session.patch(`/session/${id}`, sessionData);
       commit('sessionUpdateSuccess', rep.data);
     } catch (e) {
@@ -104,10 +104,10 @@ const actions = {
     }
   },
 
-  deleteSessionInDB: async ({ commit, rootGetters }, id) => {
+  deleteSessionInDB: async ({ commit }, id) => {
     commit('pending');
     try {
-      session.defaults.headers.common['auth-token'] = rootGetters['auth/getToken'];
+      session.defaults.headers.common['auth-token'] = cookie.get('token');
       await session.delete(`/session/${id}`);
       commit('sessionDeleteSuccess');
     } catch (e) {

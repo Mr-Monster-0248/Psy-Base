@@ -1,5 +1,5 @@
 /* eslint-disable no-shadow */
-
+import cookie from 'vue-cookie';
 import { session } from '../session';
 
 
@@ -36,8 +36,12 @@ const mutations = {
     state.status = 'updated';
   },
 
-  patientRemovalSucces: (state) => {
+  patientRemovalSuccess: (state) => {
     state.status = 'removed';
+  },
+
+  patientRemovalNotAuth: (state) => {
+    state.status = 'not auth removal';
   },
 };
 
@@ -47,71 +51,74 @@ const actions = {
   // TODO: test requests in app
 
   // GET ALL PATIENTS FROM DB
-  getAllPatientsFromDB: async ({ commit, rootGetters }) => {
+  getAllPatientsFromDB: async ({ commit }) => {
     commit('pending');
     try {
-      session.defaults.headers.common['auth-token'] = rootGetters['auth/getToken'];
+      session.defaults.headers.common['auth-token'] = cookie.get('token');
       const rep = await session.get('/patient');
       commit('patientReceptionSuccess', rep.data);
     } catch (e) {
-      console.log(e.response.data);
+      console.error(e.response.data);
       commit('errorConnectingDatabase');
     }
   },
 
 
   // GET ONLY ONE PATIENT FROM DB
-  getOnePatientFromDB: async ({ commit, rootGetters }, patientId) => {
+  getOnePatientFromDB: async ({ commit }, patientId) => {
     commit('pending');
     try {
-      session.defaults.headers.common['auth-token'] = rootGetters['auth/getToken'];
+      session.defaults.headers.common['auth-token'] = cookie.get('token');
       const rep = await session.get(`/patient/${patientId}`);
       commit('patientReceptionSuccess', rep.data);
     } catch (e) {
-      console.log(e.response.data);
+      console.error(e.response.data);
       commit('errorConnectingDatabase');
     }
   },
 
 
   // ADD ONE PATIENT TO DB
-  addPatientToDB: async ({ commit, rootGetters }, patient) => {
+  addPatientToDB: async ({ commit }, patient) => {
     commit('pending');
     try {
-      session.defaults.headers.common['auth-token'] = rootGetters['auth/getToken'];
+      session.defaults.headers.common['auth-token'] = cookie.get('token');
       const rep = await session.post('/patient/add', patient);
       commit('patientAdditionSuccess', rep.data);
     } catch (e) {
-      console.log(e.response.data);
+      console.error(e.response.data);
       commit('errorConnectingDatabase');
     }
   },
 
 
   // UPDATE ONE PATIENT IN DB
-  updatePatientInDB: async ({ commit, rootGetters }, patient) => {
+  updatePatientInDB: async ({ commit }, patient) => {
     commit('pending');
     try {
-      session.defaults.headers.common['auth-token'] = rootGetters['auth/getToken'];
+      session.defaults.headers.common['auth-token'] = cookie.get('token');
       const rep = await session.put(`/patient/${patient.id}`, patient);
       commit('patientUpdateSuccess', rep.data);
     } catch (e) {
-      console.log(e.response.data);
+      console.error(e.response);
       commit('errorConnectingDatabase');
     }
   },
 
 
   // REMOVE ONE PATIENT FROM DB
-  removePatientFromDB: async ({ commit, rootGetters }, patientId) => {
+  removePatientFromDB: async ({ commit }, patientId) => {
     commit('pending');
     try {
-      session.default.headers.common['auth-token'] = rootGetters['auth/getToken'];
+      session.defaults.headers.common['auth-token'] = cookie.get('token');
       await session.delete(`/patient/${patientId}`);
       commit('patientRemovalSuccess');
     } catch (e) {
-      console.log(e.response.data);
-      commit('errorCoonectingDatabase');
+      if (e.response.data.code === '23503') commit('patientRemovalNotAuth');
+      else {
+        console.error(e.response.data);
+        commit('errorConnectingDatabase');
+      }
     }
   },
 };

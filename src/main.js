@@ -1,5 +1,7 @@
 import Vue from 'vue';
 import VueSwal from 'vue-swal';
+import VueCookie from 'vue-cookie';
+
 import App from './App.vue';
 import router from './router';
 import store from './store';
@@ -9,6 +11,7 @@ import '@mdi/font/css/materialdesignicons.css';
 
 Vue.config.productionTip = false;
 Vue.use(VueSwal);
+Vue.use(VueCookie);
 
 const ignoreWarnMessage = 'The .native modifier for v-on is only valid on components but it was used on <div>.';
 // eslint-disable-next-line no-unused-vars
