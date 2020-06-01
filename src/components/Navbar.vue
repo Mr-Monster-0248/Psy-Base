@@ -52,7 +52,7 @@ export default {
   methods: {
     actionBtn() {
       if (this.isLoggedIn) this.$store.dispatch('auth/logout');
-      else this.$router.push('/login');
+      this.$router.push('/login');
     },
   },
 
