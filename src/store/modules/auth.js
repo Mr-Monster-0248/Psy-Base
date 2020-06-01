@@ -1,16 +1,20 @@
 /* eslint-disable no-shadow */
+import cookie from 'vue-cookie';
+import jwt from 'jsonwebtoken';
+import router from 'vue-router';
+
 const { session } = require('../session');
 
 const state = {
   status: null,
-  auth_token: null,
   loggedIn: false,
+  admin: false,
 };
 
 const getters = {
   isPending: (state) => state.status === 'pending',
   isLoggedIn: (state) => state.loggedIn,
-  getToken: (state) => state.auth_token,
+  isAdmin: (state) => state.admin,
 };
 
 const mutations = {
@@ -18,9 +22,13 @@ const mutations = {
     state.status = 'pending';
   },
 
-  connectionSuccess: (state, token) => {
-    state.auth_token = token;
+  connectionSuccess: (state) => {
     state.loggedIn = true;
+  },
+
+  connectionAdminSuccess: (state) => {
+    state.loggedIn = true;
+    state.admin = true;
   },
 
   connectionFaild: (state) => {
@@ -28,15 +36,18 @@ const mutations = {
   },
 
   loggedOut: (state) => {
-    state.auth_token = null;
     state.isLoggedIn = false;
+    state.admin = false;
+    state.status = null;
   },
 };
 
 const actions = {
 
   logout: async ({ commit }) => {
+    cookie.delete('token');
     commit('loggedOut');
+    router.push('/login');
   },
 
   loginAdmin: async ({ commit }, { email, password }) => {
@@ -45,8 +56,8 @@ const actions = {
       const rep = await session.post('/auth/login-admin', { email, password });
 
       // Adding token to header of the request
-      session.defaults.headers.common['auth-token'] = rep.data;
-      commit('connectionSuccess', rep.data);
+      cookie.set('token', rep.data);
+      commit('connectionAdminSuccess');
     } catch (e) {
       commit('connectionFaild');
       console.error(e.stack);
@@ -57,12 +68,18 @@ const actions = {
     commit('pending');
     try {
       const rep = await session.post('/auth/login', { email, password });
-      // console.log(rep.data);
-      commit('connectionSuccess', rep.data);
-      // console.log(password);
-      // console.log(email);
+      this.$cookie.set('token', rep.data);
+      commit('connectionSuccess');
     } catch (e) {
       console.error(e.stack);
+    }
+  },
+
+  reconnect: async ({ commit }) => {
+    if (cookie.get('token') != null) {
+      if (jwt.decode(cookie.get('token')).admin) {
+        commit('connectionAdminSuccess');
+      } else commit('connectionSuccess');
     }
   },
 };

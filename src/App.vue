@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <Appbar/>
-    <Navbar/>
+    <Navbar v-if="this.$route.path !== '/login'"/>
     <v-content>
       <router-view/>
     </v-content>
@@ -19,8 +19,8 @@ export default {
     Navbar,
   },
 
-  data: () => ({
-    //
-  }),
+  beforeMount() {
+    this.$store.dispatch('auth/reconnect');
+  },
 };
 </script>
