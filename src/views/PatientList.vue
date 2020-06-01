@@ -54,10 +54,16 @@ export default {
           icon: 'success',
         });
         this.$store.dispatch('patient/getAllPatientsFromDB');
+      } else if (newState === 'not auth removal') {
+        this.$swal({
+          title: 'Vous ne pouvez pas supprimer ce patient',
+          text: 'Il fait partie de séances, supprimez d\'abord ses séances',
+          icon: 'warning',
+        });
       } else if (newState === 'DB error') {
         this.$swal({
-          title: 'Une erreur est survenue pendant l\'envoie',
-          text: 'Réessayer plus tard',
+          title: 'Une erreur est survenue',
+          text: 'Réessayez plus tard',
           icon: 'error',
         });
       }
@@ -66,7 +72,6 @@ export default {
 
   methods: {
     deleteSelection() {
-      console.log(this.selected);
       this.$swal({
         title: 'Continuer la suppression du patient ?',
         dangerMode: true,
@@ -82,7 +87,7 @@ export default {
         },
       }).then((valid) => {
         if (valid) {
-          this.$store.dispatch('patient/removePatientFromDB', this.selected.patient_id);
+          this.$store.dispatch('patient/removePatientFromDB', this.selected[0].patient_id);
         }
       });
     },
