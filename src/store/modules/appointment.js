@@ -76,12 +76,11 @@ const actions = {
     }
   },
 
-  // GET SINGLE SESSIONS FROM DATABASE
-  getSingleSessionFromDB: async ({ commit }, sessionId) => {
+  getPersonnalSessionForUser: async ({ commit }) => {
     commit('pending');
     try {
       session.defaults.headers.common['auth-token'] = Vue.cookie.get('token');
-      const rep = await session.get(`/session/${sessionId}`);
+      const rep = await session.get('/session/self');
       commit('sessionRetrievalSuccess', rep.data);
     } catch (e) {
       console.log(e.response.data);

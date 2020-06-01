@@ -71,6 +71,7 @@ const actions = {
       Vue.cookie.set('token', rep.data);
       commit('connectionSuccess');
     } catch (e) {
+      commit('connectionFaild');
       console.error(e.stack);
     }
   },
