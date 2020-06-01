@@ -14,7 +14,7 @@
 export default {
   methods: {
     go() {
-      this.$router.push('/');
+      this.$router.push('/').catch(() => null);
     },
   },
 };

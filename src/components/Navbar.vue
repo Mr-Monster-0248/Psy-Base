@@ -42,7 +42,7 @@ export default {
   name: 'Navbar',
   data: () => ({
     items: [
-      { title: 'Callendrier', icon: 'gg-calendar', to: '/' },
+      { title: 'Calendrier', icon: 'gg-calendar', to: '/' },
       { title: 'Ajouter une séance', icon: 'gg-add', to: '/add-session' },
       { title: 'Ajouter un patient', icon: 'gg-user-add', to: '/add-patient' },
       { title: 'Liste de patient', icon: 'gg-user-list', to: '/patients' },

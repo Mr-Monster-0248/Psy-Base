@@ -21,6 +21,7 @@
           <v-text-field
             v-model="password"
             :rules="rules"
+            type="password"
             prepend-icon="fas fa-lock"
             hint="Your password"
             placeholder="Password"

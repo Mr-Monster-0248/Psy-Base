@@ -36,6 +36,8 @@ export default {
       { text: 'Nom', value: 'last_name' },
       { text: 'Prénom', value: 'first_name' },
       { text: 'Date de naissance', value: 'date_of_birth' },
+      { text: 'Email', value: 'email' },
+      { text: 'Adresse', value: 'address' },
     ],
   }),
 
